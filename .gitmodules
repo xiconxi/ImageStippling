@@ -1,0 +1,9 @@
+[submodule "external/voronoi"]
+	path = external/voronoi
+	url = https://github.com/JCash/voronoi
+[submodule "external/eigen"]
+	path = external/eigen
+	url = https://github.com/libigl/eigen
+[submodule "external/stb"]
+	path = external/stb
+	url = https://github.com/nothings/stb
