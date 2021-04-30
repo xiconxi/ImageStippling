@@ -1,5 +1,12 @@
 # Image Stippling
 
+A fast lightweight implement of image stippling base on lightweight libs : [jcv_voronoi](https://github.com/JCash/voronoi), stb, eigen.
+
+## Denpendencies
+- eigen
+- stb
+- [voronoi](https://github.com/JCash/voronoi)
+
 |                           |                                                         |      |
 | ------------------------------------------------ | ------------------------------------------------------- | ---- |
 | <img width="512" alt="leaves" src="./data/leaves.bmp">  | <img width="512" alt="leaves" src="./imgs/leaves.png">  | <img width="512" alt="leaves" src="./imgs/leaves.gif">      |
