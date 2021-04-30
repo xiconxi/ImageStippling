@@ -18,11 +18,13 @@ public:
         : density_(d), bbox_(bbox) {
     }
 
+    void update_density(const Eigen::MatrixXd& d) { density_ = ImageSampler(d);}
+
     ~CentroidVoronoiDiagram() { if(diagram_.internal) jcv_diagram_free(&diagram_); }
 
     void random_sampling(int n_sample) {
         if(n_sample == -1)
-            n_sample = 128*128;
+            n_sample = 128.0*128*density_.rows()/density_.cols();
         points_.reserve(n_sample);
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
         std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -81,18 +83,21 @@ int main(int argc, char** argv)
     assert(argc == 3);
     jcv_rect bounding_box = {{0.0f, 0.0f}, {1.0f, 1.0f}};
     Eigen::MatrixXd img_density = read_density(argv[1]);
-    img_density = (255 - img_density.array()).max(10).pow(1.2);
-    std::cout << img_density.maxCoeff() << std::endl;
+
+    img_density = (255 - img_density.array()).max(10);
     CentroidVoronoiDiagram cvd( bounding_box, img_density);
-//    cvd.random_sampling(5000);
-    for(int i = 0; i < 500; i++) {
+    cvd.random_sampling(-1);
+    cvd.update_density(img_density.array().pow(2));
+    std::cout << img_density.maxCoeff() << std::endl;
+
+    for(int i = 0; i < 100; i++) {
         double max_diff = cvd.lloyd();
-        if((i+1)%4 == 0)
+//        if((i+1)%4 == 0)
             cvd.export_svg(argv[2]+std::to_string(int(i/4))+".svg");
         if(max_diff < 3e-7 and i > 30) break;
         std::cout << "\r" << "lloyd: " << i << ' ' << max_diff << std::endl ;
     }
-    cvd.export_svg(std::string(argv[2])+"-stippling.svg");
+    cvd.export_svg(std::string(argv[2])+"stippling.svg");
 }
 
 jcv_point CentroidVoronoiDiagram::polygon_centroid(const jcv_graphedge* graph_edge) {

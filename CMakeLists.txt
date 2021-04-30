@@ -11,3 +11,4 @@ include_directories(${PROJECT_SOURCE_DIR}/external/stb)
 
 
 add_executable(${PROJECT_NAME}  src/VoronoiApp.cpp src/ImageSampler.cpp)
+configure_file(src/run.py ${CMAKE_BINARY_DIR}/run.py COPYONLY)

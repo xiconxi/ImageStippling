@@ -19,7 +19,7 @@ Eigen::MatrixX2d dither_sampling(Eigen::MatrixXd& img, int n_sample);
 class ImageSampler: public Eigen::MatrixXd
 {
 public:
-    explicit ImageSampler(Eigen::MatrixXd& d): Eigen::MatrixXd(d){}
+    explicit ImageSampler(const Eigen::MatrixXd& d): Eigen::MatrixXd(d){}
 
     double d(double y, double x) const ;
 
